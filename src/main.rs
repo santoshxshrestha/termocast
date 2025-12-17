@@ -16,8 +16,9 @@ async fn fetch_weather(city: &str, key: String) -> reqwest::Response {
 
 #[tokio::main]
 async fn main() {
-    dotenv::dotenv().ok();
     // Load API key from environment variable
+    dotenv::dotenv().ok();
+
     // this should fail if the key is not found
     let key =
         dotenv::var("OPEN_WEATHER_API_KEY").expect("API key not found in environment variables");
