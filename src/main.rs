@@ -4,7 +4,9 @@ use serde_json;
 use tokio;
 
 mod types;
+mod ui;
 use types::WeatherDetails;
+use ui::tui_thinge;
 
 async fn fetch_weather(city: &str, key: String) -> reqwest::Response {
     let base_url = "http://api.openweathermap.org/data/2.5/weather?";
@@ -31,6 +33,9 @@ async fn main() {
         .await
         .expect("Failed to read response text");
 
-    let details: WeatherDetails = serde_json::from_str(&weather_text).unwrap();
-    println!("{:#?}", details);
+    let _details: WeatherDetails = serde_json::from_str(&weather_text).unwrap();
+    // println!("{:#?}", details);
+    //
+    //
+    tui_thinge();
 }
