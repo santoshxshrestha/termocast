@@ -1,4 +1,6 @@
 #![allow(unused)]
+use crate::fetch_weather;
+use crate::types::WeatherDetails;
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
 use ratatui::{
     DefaultTerminal, Frame,
@@ -12,11 +14,10 @@ use ratatui::{
 use std::io;
 use tokio;
 
-use crate::fetch_weather;
-
 #[derive(Default, Debug)]
 struct App {
     city: String,
+    weather_details: Option<WeatherDetails>,
     exit: bool,
 }
 
@@ -50,7 +51,7 @@ impl App {
                 kind: KeyEventKind::Press,
                 ..
             }) => {
-                todo!("fetch and display weather for {}", self.city);
+                self.handle_weather_fetch();
             }
             Event::Key(KeyEvent {
                 code: KeyCode::Char(c),
@@ -74,6 +75,23 @@ impl App {
     fn exit(&mut self) {
         self.exit = true;
     }
+
+    fn handle_weather_fetch(&mut self) {
+        let city = self.city.clone();
+        tokio::spawn(async move {
+            let response = fetch_weather(&city).await;
+            if response.status().is_success() {
+                let weather_text = response.text().await.expect("Failed to read response text");
+                let details: WeatherDetails = serde_json::from_str(&weather_text).unwrap();
+            } else {
+                println!(
+                    "Failed to fetch weather data for {}: {}",
+                    city,
+                    response.status()
+                );
+            }
+        });
+    }
 }
 
 impl Widget for &App {
@@ -87,7 +105,28 @@ impl Widget for &App {
             .title_bottom(instruction.centered())
             .border_set(border::ROUNDED);
         let content = Paragraph::new("City: ".to_string() + &self.city).block(block);
+        let weather_info = if let Some(details) = &self.weather_details {
+            format!(
+                "City: {}\nTemperature: {:.2}°C\nMin Temp: {:.2}°C\nMax Temp: {:.2}°C\nHumidity: {}%\nPressure: {} hPa\nWind Speed: {:.2} m/s\nWind Direction: {}°\nCloudiness: {}%\nDescription: {}\n",
+                details.name,
+                details.main.temp - 273.15,
+                details.main.temp_min - 273.15,
+                details.main.temp_max - 273.15,
+                details.main.humidity,
+                details.main.pressure,
+                details.wind.speed,
+                details.wind.deg,
+                details.clouds.all,
+                details
+                    .weather
+                    .first()
+                    .map_or("N/A", |w| w.description.as_str())
+            )
+        } else {
+            "No weather data available.".to_string()
+        };
         content.centered().render(area, buf);
+        weather_info.render(area, buf);
     }
 }
 

@@ -2,35 +2,35 @@
 use serde::Deserialize;
 #[derive(Debug, Deserialize)]
 pub struct WeatherDetails {
-    name: String,
-    dt: u64,
-    weather: Vec<WeatherCondition>,
-    main: MainReadings,
-    wind: WindInfo,
-    clouds: CloudCover,
+    pub name: String,
+    pub dt: u64,
+    pub weather: Vec<WeatherCondition>,
+    pub main: MainReadings,
+    pub wind: WindInfo,
+    pub clouds: CloudCover,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct WeatherCondition {
-    description: String,
+    pub description: String,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct MainReadings {
-    temp: f32,
-    temp_min: f32,
-    temp_max: f32,
-    humidity: u8,
-    pressure: u16,
+    pub temp: f32,
+    pub temp_min: f32,
+    pub temp_max: f32,
+    pub humidity: u8,
+    pub pressure: u16,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct WindInfo {
-    speed: f32,
-    deg: u16,
+    pub speed: f32,
+    pub deg: u16,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct CloudCover {
-    all: u8,
+    pub all: u8,
 }
