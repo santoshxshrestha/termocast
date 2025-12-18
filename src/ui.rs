@@ -104,10 +104,9 @@ impl Widget for &App {
             .title(title.centered())
             .title_bottom(instruction.centered())
             .border_set(border::ROUNDED);
-        let content = Paragraph::new("City: ".to_string() + &self.city).block(block);
         let weather_info = if let Some(details) = &self.weather_details {
             format!(
-                "City: {}\nTemperature: {:.2}°C\nMin Temp: {:.2}°C\nMax Temp: {:.2}°C\nHumidity: {}%\nPressure: {} hPa\nWind Speed: {:.2} m/s\nWind Direction: {}°\nCloudiness: {}%\nDescription: {}\n",
+                "\nCity: {}\nTemperature: {:.2}°C\nMin Temp: {:.2}°C\nMax Temp: {:.2}°C\nHumidity: {}%\nPressure: {} hPa\nWind Speed: {:.2} m/s\nWind Direction: {}°\nCloudiness: {}%\nDescription: {}\n",
                 details.name,
                 details.main.temp - 273.15,
                 details.main.temp_min - 273.15,
@@ -123,10 +122,12 @@ impl Widget for &App {
                     .map_or("N/A", |w| w.description.as_str())
             )
         } else {
-            "No weather data available.".to_string()
+            "\nNo weather data available.".to_string()
         };
+
+        let content =
+            Paragraph::new("City: ".to_string() + &self.city + weather_info.as_str()).block(block);
         content.centered().render(area, buf);
-        weather_info.render(area, buf);
     }
 }
 
