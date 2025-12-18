@@ -8,6 +8,7 @@ mod ui;
 use types::WeatherDetails;
 use ui::tui;
 
+// Function to fetch weather data from OpenWeatherMap API
 async fn fetch_weather(city: &str, key: String) -> reqwest::Response {
     let base_url = "http://api.openweathermap.org/data/2.5/weather?";
     let complete_url = format!("{}q={}&appid={}", base_url, city, key);

@@ -28,7 +28,7 @@ impl App {
         &mut self,
         terminal: &mut DefaultTerminal,
     ) -> Result<(), Box<dyn std::error::Error>> {
-        loop {
+        while !self.exit {
             terminal.draw(|frame| self.draw(frame))?;
             self.handle_events()?;
         }
@@ -97,13 +97,6 @@ impl Widget for &App {
 pub fn tui() -> Result<(), Box<dyn std::error::Error>> {
     let mut terminal = ratatui::init();
     let app_result = App::default().run(&mut terminal);
-    // loop {
-    //     terminal.draw(render).expect("failed to draw frame");
-    //     // here matches will return true if the event is a key event
-    //     if matches!(event::read().expect("failed to read event"), Event::Key(_)) {
-    //         break;
-    //     }
-    // }
     ratatui::restore();
     app_result
 }
