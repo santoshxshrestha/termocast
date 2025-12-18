@@ -9,6 +9,7 @@ use ratatui::{
     text::{Line, Text},
     widgets::{Block, Paragraph, Widget},
 };
+use std::io;
 use tokio;
 
 fn render(frame: &mut Frame) {
@@ -34,31 +35,6 @@ impl App {
         Ok(())
     }
 
-    fn draw(&self, frame: &mut Frame) {
-        todo!()
-    }
-
-    fn handle_events(&mut self) -> io::Result<()> {
-        todo!()
-    }
-}
-
-impl Widget for &App {
-    fn render(self, area: Rect, buf: &mut Buffer) {
-        let title = Line::from(" Weather TUI ").bold().underlined();
-        let instruction =
-            Line::from(" Type a city name and press Enter to get the weather. Press 'q' to quit. ")
-                .italic();
-        let block = Block::bordered()
-            .title(title.centered())
-            .title_bottom(instruction.centered())
-            .border_set(border::ROUNDED);
-        let content = Paragraph::new("City: ".to_string() + &self.city).block(block);
-        content.centered().render(area, buf);
-    }
-}
-
-impl App {
     fn draw(&self, frame: &mut Frame) {
         frame.render_widget(self, frame.area());
     }
@@ -103,7 +79,22 @@ impl App {
     }
 }
 
-pub fn tui() {
+impl Widget for &App {
+    fn render(self, area: Rect, buf: &mut Buffer) {
+        let title = Line::from(" Weather TUI ").bold().underlined();
+        let instruction =
+            Line::from(" Type a city name and press Enter to get the weather. Press 'q' to quit. ")
+                .italic();
+        let block = Block::bordered()
+            .title(title.centered())
+            .title_bottom(instruction.centered())
+            .border_set(border::ROUNDED);
+        let content = Paragraph::new("City: ".to_string() + &self.city).block(block);
+        content.centered().render(area, buf);
+    }
+}
+
+pub fn tui() -> Result<(), Box<dyn std::error::Error>> {
     let mut terminal = ratatui::init();
     let app_result = App::default().run(&mut terminal);
     // loop {

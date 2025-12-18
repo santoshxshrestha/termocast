@@ -6,7 +6,7 @@ use tokio;
 mod types;
 mod ui;
 use types::WeatherDetails;
-use ui::tui_thinge;
+use ui::tui;
 
 async fn fetch_weather(city: &str, key: String) -> reqwest::Response {
     let base_url = "http://api.openweathermap.org/data/2.5/weather?";
@@ -37,5 +37,5 @@ async fn main() {
     // println!("{:#?}", details);
     //
     //
-    tui_thinge();
+    tui().unwrap();
 }
