@@ -5,17 +5,14 @@ use ratatui::{
     buffer::Buffer,
     layout::Rect,
     style::Stylize,
-    symbols::border,
+    symbols::{border, line},
     text::{Line, Text},
     widgets::{Block, Paragraph, Widget},
 };
 use std::io;
 use tokio;
 
-fn render(frame: &mut Frame) {
-    let text = Text::raw("Hello World!");
-    frame.render_widget(text, frame.area());
-}
+use crate::fetch_weather;
 
 #[derive(Default, Debug)]
 struct App {
