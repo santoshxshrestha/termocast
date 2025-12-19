@@ -96,11 +96,8 @@ impl App {
                 let mut weather_details = weather_details_arc.lock().unwrap();
                 *weather_details = Some(details);
             } else {
-                println!(
-                    "Failed to fetch weather data for {}: {}",
-                    city,
-                    response.status()
-                );
+                let mut weather_details = weather_details_arc.lock().unwrap();
+                *weather_details = None;
             }
         });
     }
@@ -139,9 +136,22 @@ impl Widget for &App {
             "\nNo weather data available.".to_string()
         };
 
-        let content =
-            Paragraph::new("City: ".to_string() + &self.city + weather_info.as_str()).block(block);
-        content.centered().render(area, buf);
+        // Render city input box
+        Paragraph::new(self.city.as_str())
+            .block(
+                Block::default()
+                    .borders(ratatui::widgets::Borders::ALL)
+                    .title("City"),
+            )
+            .centered()
+            .render(area, buf);
+
+        Paragraph::new(weather_info.as_str())
+            .block(block)
+            .centered()
+            .render(area, buf);
+
+        let footer = Line::from(" Powered by OpenWeatherMap API ").italic();
     }
 }
 
