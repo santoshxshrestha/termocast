@@ -1,6 +1,7 @@
 #![allow(unused)]
 use crate::fetch_weather;
 use crate::types::WeatherDetails;
+use crate::types::*;
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
 use ratatui::{
     DefaultTerminal, Frame,
@@ -12,12 +13,13 @@ use ratatui::{
     widgets::{Block, Paragraph, Widget},
 };
 use std::io;
+use std::sync::{Arc, Mutex};
 use tokio;
 
 #[derive(Default, Debug)]
 struct App {
     city: String,
-    weather_details: Option<WeatherDetails>,
+    weather_details: Arc<Mutex<Option<WeatherDetails>>>,
     exit: bool,
 }
 
@@ -78,11 +80,14 @@ impl App {
 
     fn handle_weather_fetch(&mut self) {
         let city = self.city.clone();
+        let weather_details_arc = Arc::clone(&self.weather_details);
         tokio::spawn(async move {
             let response = fetch_weather(&city).await;
             if response.status().is_success() {
                 let weather_text = response.text().await.expect("Failed to read response text");
                 let details: WeatherDetails = serde_json::from_str(&weather_text).unwrap();
+                let mut weather_details = weather_details_arc.lock().unwrap();
+                *weather_details = Some(details);
             } else {
                 println!(
                     "Failed to fetch weather data for {}: {}",
@@ -104,7 +109,29 @@ impl Widget for &App {
             .title(title.centered())
             .title_bottom(instruction.centered())
             .border_set(border::ROUNDED);
-        let weather_info = if let Some(details) = &self.weather_details {
+        // lets pass default weather details first and then we can update it when we fetch new data
+
+        *self.weather_details.lock().unwrap() = Some(WeatherDetails {
+            name: "Sample City".to_string(),
+            dt: 0,
+            weather: vec![WeatherCondition {
+                description: "clear sky".to_string(),
+            }],
+            main: MainReadings {
+                temp: 300.15,
+                temp_min: 295.15,
+                temp_max: 305.15,
+                humidity: 50,
+                pressure: 1013,
+            },
+            wind: WindInfo {
+                speed: 5.0,
+                deg: 180,
+            },
+            clouds: CloudCover { all: 0 },
+        });
+
+        let weather_info = if let Some(details) = &self.weather_details.lock().unwrap().as_ref() {
             format!(
                 "\nCity: {}\nTemperature: {:.2}°C\nMin Temp: {:.2}°C\nMax Temp: {:.2}°C\nHumidity: {}%\nPressure: {} hPa\nWind Speed: {:.2} m/s\nWind Direction: {}°\nCloudiness: {}%\nDescription: {}\n",
                 details.name,
