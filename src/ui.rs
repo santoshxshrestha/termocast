@@ -100,6 +100,7 @@ impl App {
 }
 
 impl Widget for &App {
+    // The render method runs every time the UI needs to be redrawn so no any mutations should be done here
     fn render(self, area: Rect, buf: &mut Buffer) {
         let title = Line::from(" Weather TUI ").bold().underlined();
         let instruction =
@@ -109,27 +110,6 @@ impl Widget for &App {
             .title(title.centered())
             .title_bottom(instruction.centered())
             .border_set(border::ROUNDED);
-        // lets pass default weather details first and then we can update it when we fetch new data
-
-        *self.weather_details.lock().unwrap() = Some(WeatherDetails {
-            name: "Sample City".to_string(),
-            dt: 0,
-            weather: vec![WeatherCondition {
-                description: "clear sky".to_string(),
-            }],
-            main: MainReadings {
-                temp: 300.15,
-                temp_min: 295.15,
-                temp_max: 305.15,
-                humidity: 50,
-                pressure: 1013,
-            },
-            wind: WindInfo {
-                speed: 5.0,
-                deg: 180,
-            },
-            clouds: CloudCover { all: 0 },
-        });
 
         let weather_info = if let Some(details) = &self.weather_details.lock().unwrap().as_ref() {
             format!(
