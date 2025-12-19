@@ -54,6 +54,9 @@ impl App {
                     kind: KeyEventKind::Press,
                     ..
                 }) => {
+                    if self.city.is_empty() {
+                        return Ok(());
+                    }
                     self.handle_weather_fetch();
                     self.city.clear();
                 }
