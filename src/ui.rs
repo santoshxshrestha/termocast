@@ -2,7 +2,7 @@
 use crate::fetch_weather;
 use crate::types::WeatherDetails;
 use crate::types::*;
-use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
+use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind, poll};
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
@@ -12,8 +12,8 @@ use ratatui::{
     text::{Line, Text},
     widgets::{Block, Paragraph, Widget},
 };
-use std::io;
 use std::sync::{Arc, Mutex};
+use std::{io, time::Duration};
 use tokio;
 
 #[derive(Default, Debug)]
@@ -40,37 +40,40 @@ impl App {
     }
 
     fn handle_events(&mut self) -> io::Result<()> {
-        match event::read()? {
-            Event::Key(KeyEvent {
-                code: KeyCode::Char('q'),
-                kind: KeyEventKind::Press,
-                ..
-            }) => {
-                self.exit();
-            }
-            Event::Key(KeyEvent {
-                code: KeyCode::Enter,
-                kind: KeyEventKind::Press,
-                ..
-            }) => {
-                self.handle_weather_fetch();
-                self.city.clear();
-            }
-            Event::Key(KeyEvent {
-                code: KeyCode::Char(c),
-                kind: KeyEventKind::Press,
-                ..
-            }) => {
-                self.city.push(c);
-            }
-            Event::Key(KeyEvent {
-                code: KeyCode::Backspace,
-                kind: KeyEventKind::Press,
-                ..
-            }) => {
-                self.city.pop();
-            }
-            _ => {}
+        match poll(Duration::from_millis(100))? {
+            true => match event::read()? {
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char('q'),
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.exit();
+                }
+                Event::Key(KeyEvent {
+                    code: KeyCode::Enter,
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.handle_weather_fetch();
+                    self.city.clear();
+                }
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char(c),
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.city.push(c);
+                }
+                Event::Key(KeyEvent {
+                    code: KeyCode::Backspace,
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.city.pop();
+                }
+                _ => {}
+            },
+            false => {}
         };
         Ok(())
     }
