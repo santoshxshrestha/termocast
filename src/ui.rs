@@ -108,7 +108,7 @@ impl App {
 impl Widget for &App {
     // The render method runs every time the UI needs to be redrawn so no any mutations should be done here
     fn render(self, area: Rect, buf: &mut Buffer) {
-        let title = Line::from(" Weather TUI ").bold().underlined();
+        let title = Line::from(" TermoCast ").bold().underlined();
         let instruction =
             Line::from(" Type a city name and press Enter. Press 'q' to quit. ").italic();
         let block = Block::bordered()
