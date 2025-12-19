@@ -21,6 +21,7 @@ struct App {
     city: String,
     weather_details: Arc<Mutex<Option<WeatherDetails>>>,
     exit: bool,
+    fetched_once: bool,
 }
 
 impl App {
@@ -59,6 +60,7 @@ impl App {
                     }
                     self.handle_weather_fetch();
                     self.city.clear();
+                    self.fetched_once = true;
                 }
                 Event::Key(KeyEvent {
                     code: KeyCode::Char(c),
@@ -108,8 +110,7 @@ impl Widget for &App {
     fn render(self, area: Rect, buf: &mut Buffer) {
         let title = Line::from(" Weather TUI ").bold().underlined();
         let instruction =
-            Line::from(" Type a city name and press Enter to get the weather. Press 'q' to quit. ")
-                .italic();
+            Line::from(" Type a city name and press Enter. Press 'q' to quit. ").italic();
         let block = Block::bordered()
             .title(title.centered())
             .title_bottom(instruction.centered())
@@ -133,7 +134,11 @@ impl Widget for &App {
                     .map_or("N/A", |w| w.description.as_str())
             )
         } else {
-            "\nNo weather data available.".to_string()
+            if self.fetched_once {
+                "\nCity not found or error fetching data.".to_string()
+            } else {
+                "\nPlease enter a city name to get the weather information.".to_string()
+            }
         };
 
         // Render city input box
