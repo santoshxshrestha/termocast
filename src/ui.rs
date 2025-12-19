@@ -54,6 +54,7 @@ impl App {
                 ..
             }) => {
                 self.handle_weather_fetch();
+                self.city.clear();
             }
             Event::Key(KeyEvent {
                 code: KeyCode::Char(c),
