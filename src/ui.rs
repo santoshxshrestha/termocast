@@ -1,15 +1,13 @@
-#![allow(unused)]
 use crate::fetch_weather;
 use crate::types::WeatherDetails;
-use crate::types::*;
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind, poll};
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
     layout::Rect,
     style::Stylize,
-    symbols::{border, line},
-    text::{Line, Text},
+    symbols::border,
+    text::Line,
     widgets::{Block, Paragraph, Widget},
 };
 use std::sync::{Arc, Mutex};
@@ -155,8 +153,6 @@ impl Widget for &App {
             .block(block)
             .centered()
             .render(area, buf);
-
-        let footer = Line::from(" Powered by OpenWeatherMap API ").italic();
     }
 }
 
