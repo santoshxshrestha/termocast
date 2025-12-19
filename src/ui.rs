@@ -40,7 +40,7 @@ impl App {
     }
 
     fn handle_events(&mut self) -> io::Result<()> {
-        match poll(Duration::from_millis(100))? {
+        match poll(Duration::from_micros(1))? {
             true => match event::read()? {
                 Event::Key(KeyEvent {
                     code: KeyCode::Char('q'),
