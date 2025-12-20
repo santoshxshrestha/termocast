@@ -1,5 +1,3 @@
-use reqwest;
-use tokio;
 
 mod types;
 mod ui;
