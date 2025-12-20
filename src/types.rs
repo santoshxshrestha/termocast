@@ -1,8 +1,9 @@
+#![allow(unused)]
 use serde::Deserialize;
 #[derive(Debug, Deserialize)]
 pub struct WeatherDetails {
     pub name: String,
-    pub _dt: u64, // dt is the timestamp of the data calculation
+    pub dt: u64, // dt is the timestamp of the data calculation
     pub weather: Vec<WeatherCondition>,
     pub main: MainReadings,
     pub wind: WindInfo,
