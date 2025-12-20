@@ -8,7 +8,6 @@ license = "MIT"
 repository = "https://github.com/santoshxshrestha/termocast"
 homepage = "https://github.com/santoshxshrestha/termocast"
 keywords = ["terminal", "weather", "cli", "rust"]
-categories = ["command-line-utilities", "network-programming", "terminal-applications"]
 readme = "README.md"
 
 [dependencies]
