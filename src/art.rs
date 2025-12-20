@@ -9,6 +9,19 @@ impl Default for AsciiArt {
     fn default() -> Self {
         let mut art = HashMap::new();
         art.insert(
+            "smoke".to_string(),
+            r"
+      (  .      )
+     )           (              )
+            .  '   .   '  .
+  (    , )       (.   )  (   ',    )
+   .' ) ( . )    ,  ( ,     )   ( .
+). , ( .   (  ) ( , ')  .' (  ,    )
+(_,) . ), ) _) _,')  (, ) '. )  ,. (' )
+                "
+            .to_string(),
+        );
+        art.insert(
             "sunny".to_string(),
             r"
     \   /
@@ -69,6 +82,9 @@ impl AsciiArt {
             c if c.contains("rain") || c.contains("Dirzzle") => self.art.get("rainy").unwrap(),
             c if c.contains("thunderstorm") => self.art.get("stormy").unwrap(),
             c if c.contains("snow") => self.art.get("snowy").unwrap(),
+            c if c.contains("smoke") || c.contains("haze") || c.contains("fog") => {
+                self.art.get("smoke").unwrap()
+            }
             _ => "No art available for this condition",
         }
     }
