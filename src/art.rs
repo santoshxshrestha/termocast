@@ -61,3 +61,15 @@ impl Default for AsciiArt {
         Self { art }
     }
 }
+impl AsciiArt {
+    pub fn get_art(&self, condition: &str) -> &str {
+        match condition {
+            "Clear" => self.art.get("sunny").unwrap(),
+            "Clouds" => self.art.get("cloudy").unwrap(),
+            "Rain" | "Drizzle" => self.art.get("rainy").unwrap(),
+            "Thunderstorm" => self.art.get("stormy").unwrap(),
+            "Snow" => self.art.get("snowy").unwrap(),
+            _ => "No art available for this condition",
+        }
+    }
+}

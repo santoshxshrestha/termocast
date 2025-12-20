@@ -11,7 +11,6 @@ use ratatui::{
     text::Line,
     widgets::{Block, Paragraph, Widget},
 };
-use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
 use std::{io, time::Duration};
 
@@ -127,7 +126,13 @@ impl Widget for &App {
             .as_ref()
         {
             format!(
-                "\nCity: {}\nTemperature: {:.2}°C\nMin Temp: {:.2}°C\nMax Temp: {:.2}°C\nHumidity: {}%\nPressure: {} hPa\nWind Speed: {:.2} m/s\nWind Direction: {}°\nCloudiness: {}%\nDescription: {}\n",
+                "{}\n\nCity: {}\nTemperature: {:.2}°C\nMin Temp: {:.2}°C\nMax Temp: {:.2}°C\nHumidity: {}%\nPressure: {} hPa\nWind Speed: {:.2} m/s\nWind Direction: {}°\nCloudiness: {}%\nDescription: {}\n",
+                self.art.get_art(
+                    &details
+                        .weather
+                        .first()
+                        .map_or("sunny", |w| w.description.as_str())
+                ),
                 details.name,
                 details.main.temp - 273.15,
                 details.main.temp_min - 273.15,
