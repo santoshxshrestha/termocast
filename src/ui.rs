@@ -134,7 +134,7 @@ impl Widget for &App {
             format!(
                 "{}\n\nCity: {}\nTemperature: {:.2}°C\nMin Temp: {:.2}°C\nMax Temp: {:.2}°C\nHumidity: {}%\nPressure: {} hPa\nWind Speed: {:.2} m/s\nWind Direction: {}°\nCloudiness: {}%\nDescription: {}\n",
                 self.art.get_art(
-                    &details
+                    details
                         .weather
                         .first()
                         .map_or("N/A", |w| w.description.as_str())
