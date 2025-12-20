@@ -337,7 +337,13 @@ impl AsciiArt {
             c if c.contains("rain") || c.contains("drizzle") => "rainy",
             c if c.contains("thunderstorm") => "stormy",
             c if c.contains("snow") => "snowy",
-            c if c.contains("smoke") || c.contains("haze") || c.contains("fog") => "smoke",
+            c if c.contains("smoke")
+                || c.contains("haze")
+                || c.contains("fog")
+                || c.contains("mist") =>
+            {
+                "smoke"
+            }
             _ => return "No art available for this condition",
         };
 
