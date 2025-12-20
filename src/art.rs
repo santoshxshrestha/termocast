@@ -1,6 +1,12 @@
 use std::collections::HashMap;
 
 #[derive(Debug)]
+pub struct ArtPair {
+    day_art: String,
+    night_art: String,
+}
+
+#[derive(Debug)]
 pub struct AsciiArt {
     art: HashMap<String, String>,
 }
