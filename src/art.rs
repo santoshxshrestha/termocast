@@ -333,17 +333,20 @@ d                                                   J%
 }
 impl AsciiArt {
     pub fn get_art(&self, condition: &str, is_day: bool) -> &str {
-        todo!("Write logic to return appropriate ASCII art based on condition and time of day");
-        // match condition {
-        //     c if c.contains("clear") => self.art.get("sunny").unwrap(),
-        //     c if c.contains("clouds") => self.art.get("cloudy").unwrap(),
-        //     c if c.contains("rain") || c.contains("Dirzzle") => self.art.get("rainy").unwrap(),
-        //     c if c.contains("thunderstorm") => self.art.get("stormy").unwrap(),
-        //     c if c.contains("snow") => self.art.get("snowy").unwrap(),
-        //     c if c.contains("smoke") || c.contains("haze") || c.contains("fog") => {
-        //         self.art.get("smoke").unwrap()
-        //     }
-        //     _ => "No art available for this condition",
-        // }
+        let art_key = match condition {
+            c if c.contains("clear") => "sunny",
+            c if c.contains("clouds") => "cloudy",
+            c if c.contains("rain") || c.contains("drizzle") => "rainy",
+            c if c.contains("thunderstorm") => "stormy",
+            c if c.contains("snow") => "snowy",
+            c if c.contains("smoke") || c.contains("haze") || c.contains("fog") => "smoke",
+            _ => return "No art available for this condition",
+        };
+
+        if is_day {
+            self.art.get(art_key).unwrap().day_art.as_str()
+        } else {
+            self.art.get(art_key).unwrap().night_art.as_str()
+        }
     }
 }
