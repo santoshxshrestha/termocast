@@ -88,12 +88,12 @@ Keyboard events are handled using Crossterm's event polling:
 
 - `poll()` checks for events without blocking (ui.rs:45)
 - Pattern matching on `KeyEvent` handles different keys
-- 'q' to quit (ui.rs:47-53)
-- 'Enter' to fetch weather (ui.rs:54-66)
-- Character input for city name (ui.rs:67-73)
-- 'Backspace' to delete characters (ui.rs:74-80)
+- 'Esc' or 'Ctrl+C' to quit (ui.rs:47-62)
+- 'Enter' to fetch weather (ui.rs:63-75)
+- Character input for city name (ui.rs:76-82)
+- 'Backspace' to delete characters (ui.rs:83-89)
 
-**Note:** The quit key is lowercase 'q' only. If you want to search for a city containing the letter 'q' (like "Qatar" or "Iraq"), you can use capital 'Q' instead.
+**Note:** The quit keys are 'Esc' or 'Ctrl+C'. This means you can now freely type 'q' in city names like "Qatar" or "Iraq" without worrying about accidentally quitting the application.
 
 ```rust
 // Non-blocking event polling
@@ -169,11 +169,11 @@ Dynamic weather visualization system:
 ## Usage
 
 1. Launch the application
-2. Type a city name (e.g., "London")
+2. Type a city name (e.g., "London", "Qatar", "Iraq")
 3. Press Enter to fetch weather data
 4. View the results with ASCII art visualization in the terminal
 5. The art adapts to day/night based on local sunrise/sunset times
-6. Press 'q' to quit
+6. Press 'Esc' or 'Ctrl+C' to quit
 
 ## Application States
 

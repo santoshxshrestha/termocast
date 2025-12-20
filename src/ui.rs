@@ -1,7 +1,7 @@
 use crate::art::AsciiArt;
 use crate::fetch_weather;
 use crate::types::WeatherDetails;
-use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind, poll};
+use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind, KeyModifiers, poll};
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
@@ -45,7 +45,15 @@ impl App {
         if poll(Duration::from_micros(1))? {
             match event::read()? {
                 Event::Key(KeyEvent {
-                    code: KeyCode::Char('q'),
+                    code: KeyCode::Esc,
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.exit();
+                }
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char('c'),
+                    modifiers: KeyModifiers::CONTROL,
                     kind: KeyEventKind::Press,
                     ..
                 }) => {
@@ -119,7 +127,7 @@ impl Widget for &App {
     fn render(self, area: Rect, buf: &mut Buffer) {
         let title = Line::from(" TermoCast ").bold().underlined();
         let instruction =
-            Line::from(" Type a city name and press Enter. Press 'q' to quit. ").italic();
+            Line::from(" Type a city name and press Enter. Press 'Esc' or 'Ctrl+C' to quit. ").italic();
         let block = Block::bordered()
             .title(title.centered())
             .title_bottom(instruction.centered())
