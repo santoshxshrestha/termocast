@@ -1,3 +1,4 @@
+mod art;
 mod types;
 mod ui;
 use ui::tui;

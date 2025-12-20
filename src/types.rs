@@ -8,6 +8,14 @@ pub struct WeatherDetails {
     pub main: MainReadings,
     pub wind: WindInfo,
     pub clouds: CloudCover,
+    pub sys: SysInfo,
+    pub timezone: u64, // it works as an offset in seconds from UTC
+}
+
+#[derive(Debug, Deserialize)]
+pub struct SysInfo {
+    pub sunrise: u64,
+    pub sunset: u64,
 }
 
 #[derive(Debug, Deserialize)]
