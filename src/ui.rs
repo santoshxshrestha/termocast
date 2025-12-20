@@ -131,7 +131,7 @@ impl Widget for &App {
                     &details
                         .weather
                         .first()
-                        .map_or("sunny", |w| w.description.as_str())
+                        .map_or("N/A", |w| w.description.as_str())
                 ),
                 details.name,
                 details.main.temp - 273.15,
