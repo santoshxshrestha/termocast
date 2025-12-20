@@ -130,7 +130,7 @@ fn handle_weather_fetch(&mut self) {
         let response = fetch_weather(&city).await;
         if response.status().is_success() {
             // Parse and update shared state
-            let details: WeatherDetails = 
+            let details: WeatherDetails =
                 serde_json::from_str(&weather_text).expect("Failed to parse JSON");
             *weather_details = Some(details);
         }
@@ -178,6 +178,7 @@ Dynamic weather visualization system:
 ## Application States
 
 The app handles multiple states gracefully:
+
 - **Initial State**: Prompts user to enter a city name
 - **Loading State**: Shows "Fetching weather data..." while API call is in progress
 - **Success State**: Displays weather data with appropriate ASCII art
@@ -205,4 +206,5 @@ This project teaches:
 7. Dynamic content selection based on real-time data
 8. Time-zone aware calculations for day/night detection
 9. Error handling in async contexts
-10. Structuring larger Rust projects with multiple modules
+10. Mainly to look the other methods that might lock the mutex while rendering the UI and avoid them.
+    You might not get any compile time error but at runtime you will see the UI freezing while fetching the data.
