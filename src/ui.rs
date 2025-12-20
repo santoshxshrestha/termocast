@@ -197,11 +197,11 @@ pub fn tui() -> Result<(), Box<dyn std::error::Error>> {
 
 pub fn is_day(details: &WeatherDetails) -> bool {
     // adding the offset to convert to local time though it's not strictly necessary for this comparison
-    let current_time = details.dt + details.timezone;
+    let current_time = details.dt as i64 + details.timezone;
 
-    let sunrise_time = details.sys.sunrise + details.timezone;
+    let sunrise_time = details.sys.sunrise as i64 + details.timezone;
 
-    let sunset_time = details.sys.sunset + details.timezone;
+    let sunset_time = details.sys.sunset as i64 + details.timezone;
 
     current_time >= sunrise_time && current_time < sunset_time
 }
