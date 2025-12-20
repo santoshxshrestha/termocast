@@ -90,11 +90,16 @@ impl App {
             let response = fetch_weather(&city).await;
             if response.status().is_success() {
                 let weather_text = response.text().await.expect("Failed to read response text");
-                let details: WeatherDetails = serde_json::from_str(&weather_text).unwrap();
-                let mut weather_details = weather_details_arc.lock().unwrap();
+                let details: WeatherDetails =
+                    serde_json::from_str(&weather_text).expect("Failed to parse JSON");
+                let mut weather_details = weather_details_arc
+                    .lock()
+                    .expect("weather_details poisoned");
                 *weather_details = Some(details);
             } else {
-                let mut weather_details = weather_details_arc.lock().unwrap();
+                let mut weather_details = weather_details_arc
+                    .lock()
+                    .expect("weather_details poisoned");
                 *weather_details = None;
             }
         });
@@ -112,7 +117,12 @@ impl Widget for &App {
             .title_bottom(instruction.centered())
             .border_set(border::ROUNDED);
 
-        let weather_info = if let Some(details) = &self.weather_details.lock().unwrap().as_ref() {
+        let weather_info = if let Some(details) = &self
+            .weather_details
+            .lock()
+            .expect("weather_details poisoned")
+            .as_ref()
+        {
             format!(
                 "\nCity: {}\nTemperature: {:.2}°C\nMin Temp: {:.2}°C\nMax Temp: {:.2}°C\nHumidity: {}%\nPressure: {} hPa\nWind Speed: {:.2} m/s\nWind Direction: {}°\nCloudiness: {}%\nDescription: {}\n",
                 details.name,

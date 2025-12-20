@@ -20,5 +20,7 @@ async fn fetch_weather(city: &str) -> reqwest::Response {
 
 #[tokio::main]
 async fn main() {
-    tui().unwrap();
+    if let Err(e) = tui() {
+        println!("Error: {}", e);
+    }
 }

@@ -103,7 +103,7 @@ if poll(Duration::from_micros(1))? {
 }
 ```
 
-#### 3. Async Integration (src/ui.rs:86-101)
+#### 3. Async Integration (src/ui.rs:86-106)
 
 The challenge: UI rendering is synchronous, but API fetching is async.
 
@@ -112,7 +112,7 @@ The challenge: UI rendering is synchronous, but API fetching is async.
 - Weather data stored in `Arc<Mutex<Option<WeatherDetails>>>` (ui.rs:19)
 - `tokio::spawn()` runs fetch in background (ui.rs:89)
 - Mutex allows safe concurrent access
-- UI polls the shared state on each render (ui.rs:115)
+- UI polls the shared state on each render (ui.rs:120-124)
 
 ```rust
 fn handle_weather_fetch(&mut self) {
@@ -123,7 +123,9 @@ fn handle_weather_fetch(&mut self) {
     tokio::spawn(async move {
         let response = fetch_weather(&city).await;
         // Update shared state when done
-        let mut weather_details = weather_details_arc.lock().unwrap();
+        let mut weather_details = weather_details_arc
+            .lock()
+            .expect("weather_details poisoned");
         *weather_details = Some(details);
     });
 }
