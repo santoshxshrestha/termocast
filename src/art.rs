@@ -1,3 +1,4 @@
+#![allow(unused)]
 use std::collections::HashMap;
 
 #[derive(Debug)]
@@ -157,8 +158,8 @@ impl Default for AsciiArt {
         );
         art.insert(
             "rainy".to_string(),
-            ArtPair { day_art: 
-r"
+            ArtPair {
+                day_art: r"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠏⠕⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -188,11 +189,9 @@ r"
 
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 "
-            .to_string(),
+                .to_string(),
 
-                , night_art:
-
-r"
+                night_art: r"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠏⠕⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -222,14 +221,13 @@ r"
 
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 "
-            .to_string(),
-                 }       
+                .to_string(),
+            },
         );
         art.insert(
             "stormy".to_string(),
-            ArtPair { day_art: 
-
-            r"
+            ArtPair {
+                day_art: r"
      .edee...      .....       .eeec.   ..eee..
    .d*''  ''''''''*e..d*''''''''''**e..e*''''  ''*c.''
   z''           ''$          $''''       *F         **e.
@@ -259,11 +257,9 @@ d                                                   J%
 
 
                    "
-            .to_string(),
+                .to_string(),
 
-                night_art: 
-
-            r"
+                night_art: r"
      .edee...      .....       .eeec.   ..eee..
    .d*''  ''''''''*e..d*''''''''''**e..e*''''  ''*c.''
   z''           ''$          $''''       *F         **e.
@@ -293,13 +289,13 @@ d                                                   J%
 
 
                    "
-            .to_string(),
-            }
+                .to_string(),
+            },
         );
         art.insert(
             "snowy".to_string(),
-            ArtPair { day_art:
-            r"
+            ArtPair {
+                day_art: r"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⢸⡇⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠙⢻⡟⠁⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⢀⡀⢰⡄⠀⣄⠀⠻⣦⣸⣇⡾⠋⠀⣤⠀⢰⡆⣀⡀⠀⠀
@@ -314,9 +310,8 @@ d                                                   J%
 ⠀⠀⠀⠀
 
                 "
-            .to_string(),
-                night_art:
-            r"
+                .to_string(),
+                night_art: r"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⢸⡇⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠙⢻⡟⠁⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⢀⡀⢰⡄⠀⣄⠀⠻⣦⣸⣇⡾⠋⠀⣤⠀⢰⡆⣀⡀⠀⠀
@@ -329,24 +324,26 @@ d                                                   J%
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⢀⣼⣧⡀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⢹⡏⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀
-                ".to_string(),
-            }
+                "
+                .to_string(),
+            },
         );
         Self { art }
     }
 }
 impl AsciiArt {
-    pub fn get_art(&self, condition: &str) -> &str {
-        match condition {
-            c if c.contains("clear") => self.art.get("sunny").unwrap(),
-            c if c.contains("clouds") => self.art.get("cloudy").unwrap(),
-            c if c.contains("rain") || c.contains("Dirzzle") => self.art.get("rainy").unwrap(),
-            c if c.contains("thunderstorm") => self.art.get("stormy").unwrap(),
-            c if c.contains("snow") => self.art.get("snowy").unwrap(),
-            c if c.contains("smoke") || c.contains("haze") || c.contains("fog") => {
-                self.art.get("smoke").unwrap()
-            }
-            _ => "No art available for this condition",
-        }
+    pub fn get_art(&self, condition: &str, is_day: bool) -> &str {
+        todo!("Write logic to return appropriate ASCII art based on condition and time of day");
+        // match condition {
+        //     c if c.contains("clear") => self.art.get("sunny").unwrap(),
+        //     c if c.contains("clouds") => self.art.get("cloudy").unwrap(),
+        //     c if c.contains("rain") || c.contains("Dirzzle") => self.art.get("rainy").unwrap(),
+        //     c if c.contains("thunderstorm") => self.art.get("stormy").unwrap(),
+        //     c if c.contains("snow") => self.art.get("snowy").unwrap(),
+        //     c if c.contains("smoke") || c.contains("haze") || c.contains("fog") => {
+        //         self.art.get("smoke").unwrap()
+        //     }
+        //     _ => "No art available for this condition",
+        // }
     }
 }

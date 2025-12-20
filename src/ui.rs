@@ -137,7 +137,8 @@ impl Widget for &App {
                     details
                         .weather
                         .first()
-                        .map_or("N/A", |w| w.description.as_str())
+                        .map_or("N/A", |w| w.description.as_str()),
+                    is_day(details)
                 ),
                 details.name,
                 details.main.temp - 273.15,
@@ -183,4 +184,15 @@ pub fn tui() -> Result<(), Box<dyn std::error::Error>> {
     let app_result = App::default().run(&mut terminal);
     ratatui::restore();
     app_result
+}
+
+pub fn is_day(details: &WeatherDetails) -> bool {
+    // adding the offset to convert to local time though it's not strictly necessary for this comparison
+    let current_time = details.dt + details.timezone;
+
+    let sunrise_time = details.sys.sunrise + details.timezone;
+
+    let sunset_time = details.sys.sunset + details.timezone;
+
+    return current_time >= sunrise_time && current_time < sunset_time;
 }
