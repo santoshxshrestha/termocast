@@ -194,5 +194,5 @@ pub fn is_day(details: &WeatherDetails) -> bool {
 
     let sunset_time = details.sys.sunset + details.timezone;
 
-    return current_time >= sunrise_time && current_time < sunset_time;
+    current_time >= sunrise_time && current_time < sunset_time
 }
