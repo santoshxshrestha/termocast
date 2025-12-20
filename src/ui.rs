@@ -38,42 +38,44 @@ impl App {
     }
 
     fn handle_events(&mut self) -> io::Result<()> {
-        if poll(Duration::from_micros(1))? == true { match event::read()? {
-            Event::Key(KeyEvent {
-                code: KeyCode::Char('q'),
-                kind: KeyEventKind::Press,
-                ..
-            }) => {
-                self.exit();
-            }
-            Event::Key(KeyEvent {
-                code: KeyCode::Enter,
-                kind: KeyEventKind::Press,
-                ..
-            }) => {
-                if self.city.is_empty() {
-                    return Ok(());
+        if poll(Duration::from_micros(1))? {
+            match event::read()? {
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char('q'),
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.exit();
                 }
-                self.handle_weather_fetch();
-                self.city.clear();
-                self.fetched_once = true;
+                Event::Key(KeyEvent {
+                    code: KeyCode::Enter,
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    if self.city.is_empty() {
+                        return Ok(());
+                    }
+                    self.handle_weather_fetch();
+                    self.city.clear();
+                    self.fetched_once = true;
+                }
+                Event::Key(KeyEvent {
+                    code: KeyCode::Char(c),
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.city.push(c);
+                }
+                Event::Key(KeyEvent {
+                    code: KeyCode::Backspace,
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.city.pop();
+                }
+                _ => {}
             }
-            Event::Key(KeyEvent {
-                code: KeyCode::Char(c),
-                kind: KeyEventKind::Press,
-                ..
-            }) => {
-                self.city.push(c);
-            }
-            Event::Key(KeyEvent {
-                code: KeyCode::Backspace,
-                kind: KeyEventKind::Press,
-                ..
-            }) => {
-                self.city.pop();
-            }
-            _ => {}
-        } };
+        };
         Ok(())
     }
 
