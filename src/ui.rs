@@ -11,6 +11,7 @@ use ratatui::{
     text::Line,
     widgets::{Block, Paragraph, Widget},
 };
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use std::{io, time::Duration};
 
@@ -20,6 +21,7 @@ struct App {
     weather_details: Arc<Mutex<Option<WeatherDetails>>>,
     art: AsciiArt,
     exit: bool,
+    isfetching: Arc<AtomicBool>,
     fetched_once: bool,
 }
 
@@ -60,6 +62,7 @@ impl App {
                     self.handle_weather_fetch();
                     self.city.clear();
                     self.fetched_once = true;
+                    self.isfetching.store(true, Ordering::SeqCst);
                 }
                 Event::Key(KeyEvent {
                     code: KeyCode::Char(c),
@@ -88,6 +91,7 @@ impl App {
     fn handle_weather_fetch(&mut self) {
         let city = self.city.clone();
         let weather_details_arc = Arc::clone(&self.weather_details);
+        let isfetching_arc = Arc::clone(&self.isfetching);
         tokio::spawn(async move {
             let response = fetch_weather(&city).await;
             if response.status().is_success() {
@@ -97,11 +101,13 @@ impl App {
                 let mut weather_details = weather_details_arc
                     .lock()
                     .expect("weather_details poisoned");
+                isfetching_arc.store(false, Ordering::SeqCst);
                 *weather_details = Some(details);
             } else {
                 let mut weather_details = weather_details_arc
                     .lock()
                     .expect("weather_details poisoned");
+                isfetching_arc.store(false, Ordering::SeqCst);
                 *weather_details = None;
             }
         });
@@ -147,6 +153,8 @@ impl Widget for &App {
                     .first()
                     .map_or("N/A", |w| w.description.as_str())
             )
+        } else if self.isfetching.load(Ordering::SeqCst) {
+            "\nFetching weather data...".to_string()
         } else if self.fetched_once {
             "\nCity not found or error fetching data.".to_string()
         } else {
