@@ -1,3 +1,4 @@
+use crate::art::AsciiArt;
 use crate::fetch_weather;
 use crate::types::WeatherDetails;
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind, poll};
@@ -10,6 +11,7 @@ use ratatui::{
     text::Line,
     widgets::{Block, Paragraph, Widget},
 };
+use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
 use std::{io, time::Duration};
 
@@ -17,6 +19,7 @@ use std::{io, time::Duration};
 struct App {
     city: String,
     weather_details: Arc<Mutex<Option<WeatherDetails>>>,
+    art: AsciiArt,
     exit: bool,
     fetched_once: bool,
 }
