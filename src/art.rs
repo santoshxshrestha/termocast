@@ -122,7 +122,6 @@ impl Default for AsciiArt {
 ⠀⠀⠀⠸⣦⣀⠀⠀⡽⠀⠀⠀⠀⠀⠳⡄⠀⠀⠀⢀⣠⠀⠀⠀⠀⠀⠀⠉⠒⠢⠴⠃⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠈⠉⠁⠸⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⠀⠀⠀⠀⠀⣆⠀⠀⡀⠀⠀⠀⠀⣿⠀⠀⠀⠀⣀⣼⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠓⠢⠤⠴⠚⢿⣄⣀⣠⡄⠈⠓⠦⠴⠞⠛⠧⠤⠟⠀⠀⠀⠀⠀⠀⠙⠛⠛⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 "
                 .to_string(),
 
@@ -215,65 +214,56 @@ impl Default for AsciiArt {
             "stormy".to_string(),
             ArtPair {
                 day_art: r"
-     .edee...      .....       .eeec.   ..eee..
-   .d*''  ''''''''*e..d*''''''''''**e..e*''''  ''*c.''
-  z''           ''$          $''''       *F         **e.
- z''             ''c        d''          *.           ''$.
-.F                        ''            ''            'F
-d                                                   J%
-3         .                                        e''
-4r       e''              .                        d''
- $     .d''     .        .F             z ..zeeeeed''
- ''*beeeP''      P        d      e.      $**''''    ''
-     ''*b.     Jbc.     z*%e.. .$**eeeeP''
-        ''*beee* ''$$eeed''  ^$$$''''    ''
-                 '$$.     .$$$c
-                  ''$$.   e$$*$$c
-                   ''$$..$$P'' '$$r
-                    ''$$$$''    ''$$.           .d
-        z.          .$$$''      ''$$.        .dP''
-        ^*e        e$$''         ''$$.     .e$''
-          *b.    .$$P''           ''$$.   z$''
-           ''$c  e$$''              ''$$.z$*''
-            ^*e$$P''                ''$$$''
-              *$$                   ''$$r
-              '$$F                 .$$P
-               $$$                z$$''
-               4$$               d$$b.
-               .$$%            .$$*''*$$e.
-
+                  .-~*~--,.   .-.
+          .-~-. ./OOOOOOOOO\.'OOO`9~~-.
+        .`OOOOOO.OOM.OLSONOOOOO@@OOOOOO\
+       /OOOO@@@OO@@@OO@@@OOO@@@@@@@@OOOO`.
+       |OO@@@WWWW@@@@OOWWW@WWWW@@@@@@@OOOO).
+     .-'OO@@@@WW@@@W@WWWWWWWWOOWW@@@@@OOOOOO}
+    /OOO@@O@@@@W@@@@@OOWWWWWOOWOO@@@OOO@@@OO|
+   lOOO@@@OO@@@WWWWWWW\OWWWO\WWWOOOOOO@@@O.'
+    \OOO@@@OOO@@@@@@OOW\     \WWWW@@@@@@@O'.
+     `,OO@@@OOOOOOOOOOWW\     \WWWW@@@@@@OOO)
+      \,O@@@@@OOOOOOWWWWW\     \WW@@@@@OOOO.'
+        `~c~8~@@@@WWW@@W\       \WOO|\UO-~'
+             (OWWWWWW@/\W\    ___\WO)
+               `~-~''     \   \WW=*'
+                         __\   \
+                         \      \
+                          \    __\
+                           \  \
+                            \ \
+                             \ \
+                              \\
+                               \\
+                                \
+                                 \
 
                    "
                 .to_string(),
 
                 night_art: r"
-     .edee...      .....       .eeec.   ..eee..
-   .d*''  ''''''''*e..d*''''''''''**e..e*''''  ''*c.''
-  z''           ''$          $''''       *F         **e.
- z''             ''c        d''          *.           ''$.
-.F                        ''            ''            'F
-d                                                   J%
-3         .                                        e''
-4r       e''              .                        d''
- $     .d''     .        .F             z ..zeeeeed''
- ''*beeeP''      P        d      e.      $**''''    ''
-     ''*b.     Jbc.     z*%e.. .$**eeeeP''
-        ''*beee* ''$$eeed''  ^$$$''''    ''
-                 '$$.     .$$$c
-                  ''$$.   e$$*$$c
-                   ''$$..$$P'' '$$r
-                    ''$$$$''    ''$$.           .d
-        z.          .$$$''      ''$$.        .dP''
-        ^*e        e$$''         ''$$.     .e$''
-          *b.    .$$P''           ''$$.   z$''
-           ''$c  e$$''              ''$$.z$*''
-            ^*e$$P''                ''$$$''
-              *$$                   ''$$r
-              '$$F                 .$$P
-               $$$                z$$''
-               4$$               d$$b.
-               .$$%            .$$*''*$$e.
 
+              *      .            dZZZZZ,       .          *
+                                 dZZZZ  ZZ,
+     *         .         ,AZZZZZZZZZZZ  `ZZ,_          *
+                    ,ZZZZZZV'      ZZZZ   `Z,`\
+                  ,ZZZ    ZZ   .    ZZZZ   `V
+        *      ZZZZV'     ZZ         ZZZZ    \_              .
+.              V   l   .   ZZ        ZZZZZZ          .
+               l    \       ZZ,     ZZZ  ZZZZZZ,
+   .          /            ZZ l    ZZZ    ZZZ `Z,
+                          ZZ  l   ZZZ     Z Z, `Z,            *
+                .        ZZ      ZZZ      Z  Z, `l
+                         Z        ZZ      V  `Z   \
+                         V        ZZC     l   V
+           Z             l        V ZR        l      .
+            \             \       l  ZA
+                            \         C          C
+                                  \   K   /    /             K
+                          A    \   \  |  /  /              /
+                           \        \\|/ /  /
+   __________________________________\|/_________________________
 
                    "
                 .to_string(),
