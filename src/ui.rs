@@ -127,7 +127,8 @@ impl Widget for &App {
     fn render(self, area: Rect, buf: &mut Buffer) {
         let title = Line::from(" TermoCast ").bold().underlined();
         let instruction =
-            Line::from(" Type a city name and press Enter. Press 'Esc' or 'Ctrl+C' to quit. ").italic();
+            Line::from(" Type a city name and press Enter. Press 'Esc' or 'Ctrl+C' to quit. ")
+                .italic();
         let block = Block::bordered()
             .title(title.centered())
             .title_bottom(instruction.centered())
