@@ -171,15 +171,20 @@ impl Widget for &App {
             "\nPlease enter a city name to get the weather information.".to_string()
         };
 
-        // Render city input box
+        let input_area = Rect {
+            x: area.x + 2,
+            y: area.y + area.height - 3,
+            width: 20,
+            height: 3,
+        };
         Paragraph::new(self.city.as_str())
             .block(
                 Block::default()
                     .borders(ratatui::widgets::Borders::ALL)
-                    .title("City"),
+                    .title("City")
+                    .title_alignment(ratatui::layout::Alignment::Center),
             )
-            .centered()
-            .render(area, buf);
+            .render(input_area, buf);
 
         Paragraph::new(weather_info.as_str())
             .block(block)
