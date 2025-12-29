@@ -60,6 +60,13 @@ impl App {
                     self.exit();
                 }
                 Event::Key(KeyEvent {
+                    code: KeyCode::Char('q'),
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.exit();
+                }
+                Event::Key(KeyEvent {
                     code: KeyCode::Enter,
                     kind: KeyEventKind::Press,
                     ..
