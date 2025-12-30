@@ -2,10 +2,12 @@ use crate::art::AsciiArt;
 use crate::fetch_weather;
 use crate::types::WeatherDetails;
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind, KeyModifiers, poll};
+use crossterm::execute;
+use crossterm::{ExecutableCommand, cursor};
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
-    layout::Rect,
+    layout::{Position, Rect},
     style::Stylize,
     symbols::border,
     text::Line,
@@ -54,7 +56,16 @@ impl App {
 
     fn draw(&self, frame: &mut Frame) {
         frame.render_widget(self, frame.area());
+        frame.set_cursor_position(Position::new(
+            self.cursor_position as u16 + 3,
+            frame.area().y + frame.area().height - 2,
+        ));
     }
+
+    fn reset_cursor_position(&mut self) {
+        self.cursor_position = 0;
+    }
+
     fn move_cursor_left(&mut self) {
         self.cursor_position = self.cursor_position.saturating_sub(1);
     }
@@ -127,6 +138,7 @@ impl App {
                     }
                     self.handle_weather_fetch();
                     self.city.clear();
+                    self.reset_cursor_position();
                     self.fetched_once = true;
                     self.isfetching.store(true, Ordering::SeqCst);
                 }
@@ -235,6 +247,9 @@ impl Widget for &App {
             width: 20,
             height: 3,
         };
+
+        let _ = execute!(io::stdout(), cursor::Show, cursor::EnableBlinking);
+
         Paragraph::new(self.city.as_str())
             .block(
                 Block::default()
