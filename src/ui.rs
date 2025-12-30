@@ -112,7 +112,7 @@ impl App {
                     kind: KeyEventKind::Press,
                     ..
                 }) => {
-                    self.city.push(c);
+                    self.enter_character(c);
                 }
                 Event::Key(KeyEvent {
                     code: KeyCode::Backspace,
