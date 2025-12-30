@@ -80,6 +80,21 @@ impl App {
                     self.exit();
                 }
                 Event::Key(KeyEvent {
+                    code: KeyCode::Right,
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.move_cursor_right();
+                }
+                Event::Key(KeyEvent {
+                    code: KeyCode::Left,
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.move_cursor_left();
+                }
+
+                Event::Key(KeyEvent {
                     code: KeyCode::Char('c'),
                     modifiers: KeyModifiers::CONTROL,
                     kind: KeyEventKind::Press,
