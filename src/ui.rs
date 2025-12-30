@@ -1,11 +1,13 @@
 use crate::art::AsciiArt;
 use crate::fetch_weather;
 use crate::types::WeatherDetails;
+use crossterm::cursor;
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind, KeyModifiers, poll};
+use crossterm::execute;
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
-    layout::Rect,
+    layout::{Position, Rect},
     style::Stylize,
     symbols::border,
     text::Line,
@@ -23,6 +25,7 @@ struct App {
     exit: bool,
     isfetching: Arc<AtomicBool>,
     fetched_once: bool,
+    cursor_position: usize,
 }
 
 impl App {
@@ -36,9 +39,53 @@ impl App {
         }
         Ok(())
     }
+    fn enter_character(&mut self, c: char) {
+        let index = self.byte_index();
+        self.city.insert(index, c);
+        self.move_cursor_right();
+    }
+
+    // this function will convert the cursor position in terms of characters to byte index in the string
+    fn byte_index(&self) -> usize {
+        self.city
+            .char_indices()
+            .map(|(i, _)| i)
+            .nth(self.cursor_position)
+            .unwrap_or(self.city.len())
+    }
 
     fn draw(&self, frame: &mut Frame) {
         frame.render_widget(self, frame.area());
+        frame.set_cursor_position(Position::new(
+            self.cursor_position as u16 + 3,
+            frame.area().y + frame.area().height - 2,
+        ));
+    }
+
+    fn reset_cursor_position(&mut self) {
+        self.cursor_position = 0;
+    }
+
+    fn move_cursor_left(&mut self) {
+        self.cursor_position = self.cursor_position.saturating_sub(1);
+    }
+
+    fn move_cursor_right(&mut self) {
+        if self.cursor_position < self.city.len() {
+            self.cursor_position = self.cursor_position.saturating_add(1);
+        }
+    }
+    fn delete_character(&mut self) {
+        let current_index = self.cursor_position;
+        if current_index != 0 {
+            let from_left_to_current_index = current_index - 1;
+            let before_character_to_delete = self.city.chars().take(from_left_to_current_index);
+            let after_character_to_delete = self.city.chars().skip(current_index);
+            self.city = before_character_to_delete
+                .chain(after_character_to_delete)
+                .collect();
+            self.move_cursor_left();
+        }
     }
 
     fn handle_events(&mut self) -> io::Result<()> {
@@ -51,6 +98,21 @@ impl App {
                 }) => {
                     self.exit();
                 }
+                Event::Key(KeyEvent {
+                    code: KeyCode::Right,
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.move_cursor_right();
+                }
+                Event::Key(KeyEvent {
+                    code: KeyCode::Left,
+                    kind: KeyEventKind::Press,
+                    ..
+                }) => {
+                    self.move_cursor_left();
+                }
+
                 Event::Key(KeyEvent {
                     code: KeyCode::Char('c'),
                     modifiers: KeyModifiers::CONTROL,
@@ -76,6 +138,7 @@ impl App {
                     }
                     self.handle_weather_fetch();
                     self.city.clear();
+                    self.reset_cursor_position();
                     self.fetched_once = true;
                     self.isfetching.store(true, Ordering::SeqCst);
                 }
@@ -84,14 +147,14 @@ impl App {
                     kind: KeyEventKind::Press,
                     ..
                 }) => {
-                    self.city.push(c);
+                    self.enter_character(c);
                 }
                 Event::Key(KeyEvent {
                     code: KeyCode::Backspace,
                     kind: KeyEventKind::Press,
                     ..
                 }) => {
-                    self.city.pop();
+                    self.delete_character();
                 }
                 _ => {}
             }
@@ -184,6 +247,9 @@ impl Widget for &App {
             width: 20,
             height: 3,
         };
+
+        let _ = execute!(io::stdout(), cursor::Show, cursor::EnableBlinking);
+
         Paragraph::new(self.city.as_str())
             .block(
                 Block::default()
