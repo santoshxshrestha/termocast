@@ -37,6 +37,20 @@ impl App {
         }
         Ok(())
     }
+    fn enter_character(&mut self, c: char) {
+        let index = self.byte_index();
+        self.city.insert(index, c);
+        self.move_cursor_right();
+    }
+
+    // this function will convert the cursor position in terms of characters to byte index in the string
+    fn byte_index(&self) -> usize {
+        self.city
+            .char_indices()
+            .map(|(i, _)| i)
+            .nth(self.cursor_position)
+            .unwrap_or(self.city.len())
+    }
 
     fn draw(&self, frame: &mut Frame) {
         frame.render_widget(self, frame.area());
@@ -45,7 +59,7 @@ impl App {
         self.cursor_position = self.cursor_position.saturating_sub(1);
     }
 
-    fn more_cursor_right(&mut self) {
+    fn move_cursor_right(&mut self) {
         if self.cursor_position < self.city.len() {
             self.cursor_position = self.cursor_position.saturating_add(1);
         }
