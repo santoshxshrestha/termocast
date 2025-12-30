@@ -64,9 +64,17 @@ impl App {
             self.cursor_position = self.cursor_position.saturating_add(1);
         }
     }
-
-    fn reset_cursor_position(&mut self) {
-        self.cursor_position = 0;
+    fn delete_character(&mut self) {
+        let current_index = self.cursor_position;
+        if current_index != 0 {
+            let from_left_to_current_index = current_index - 1;
+            let before_character_to_delete = self.city.chars().take(from_left_to_current_index);
+            let after_character_to_delete = self.city.chars().skip(current_index);
+            self.city = before_character_to_delete
+                .chain(after_character_to_delete)
+                .collect();
+            self.move_cursor_left();
+        }
     }
 
     fn handle_events(&mut self) -> io::Result<()> {
@@ -134,7 +142,7 @@ impl App {
                     kind: KeyEventKind::Press,
                     ..
                 }) => {
-                    self.city.pop();
+                    self.delete_character();
                 }
                 _ => {}
             }
