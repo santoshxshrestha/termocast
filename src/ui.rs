@@ -23,6 +23,7 @@ struct App {
     exit: bool,
     isfetching: Arc<AtomicBool>,
     fetched_once: bool,
+    cursor_position: usize,
 }
 
 impl App {
@@ -39,6 +40,19 @@ impl App {
 
     fn draw(&self, frame: &mut Frame) {
         frame.render_widget(self, frame.area());
+    }
+    fn move_cursor_left(&mut self) {
+        self.cursor_position = self.cursor_position.saturating_sub(1);
+    }
+
+    fn more_cursor_right(&mut self) {
+        if self.cursor_position < self.city.len() {
+            self.cursor_position = self.cursor_position.saturating_add(1);
+        }
+    }
+
+    fn reset_cursor_position(&mut self) {
+        self.cursor_position = 0;
     }
 
     fn handle_events(&mut self) -> io::Result<()> {
