@@ -3,7 +3,7 @@ use crate::fetch_weather;
 use crate::types::WeatherDetails;
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind, KeyModifiers, poll};
 use crossterm::execute;
-use crossterm::{ExecutableCommand, cursor};
+use crossterm::cursor;
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
